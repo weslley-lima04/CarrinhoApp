@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -33,6 +34,8 @@ public class CarrinhoActivity extends AppCompatActivity
     Button limpar;
     int img;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -49,6 +52,12 @@ public class CarrinhoActivity extends AppCompatActivity
             public void onClick(View view)
             {
                new PedidoHelper(CarrinhoActivity.this).limparCarrinho(CarrinhoActivity.this);
+
+               //limpando a tela
+               finish();
+               overridePendingTransition(0, 0);
+               startActivity(getIntent());
+               overridePendingTransition(0, 0);
             }
         });
 
@@ -87,9 +96,29 @@ public class CarrinhoActivity extends AppCompatActivity
         lista_teste.hasFixedSize();
         lista_teste.setAdapter(adapterCarrinho);
 
+        if(carrinho.size()==0)
+        {
+            setContentView(R.layout.modelo_emptyactivity);
+        }
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if(item.getItemId() == android.R.id.home)
+        {
+            onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+    }
 }

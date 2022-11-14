@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -104,7 +105,7 @@ public class PedidoActivity extends AppCompatActivity
             }
         });
 
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 
@@ -112,6 +113,23 @@ public class PedidoActivity extends AppCompatActivity
     {
         String insert = new PedidoHelper(this).inputPedido(nome, preco, qtd);
         Toast.makeText(this, insert, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if(item.getItemId() == android.R.id.home)
+        {
+            onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
     }
 
 }
