@@ -18,8 +18,8 @@ public class PedidoTabela
         public static final String TABLE_NAME = "pedidos";
         public static final String _ID = BaseColumns._ID;
         public static final String COLUMN_NAME = "nomeProduto";
-        public static final String COLUMN_PRICE = "precoProduto";
         public static final String COLUMN_QUANTITY = "qtdProduto";
+        public static final String COLUMN_PRICE = "precoProduto";
 
 
     }

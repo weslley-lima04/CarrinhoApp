@@ -79,20 +79,22 @@ public class Produto
     }
 
     //pro Feed
-    public Produto(String nomeProduto, String descProduto, String precoProduto, int imgProduto)
+    public Produto(String nomeProduto, String descProduto, String precoProduto, String tipoProduto, int imgProduto)
     {
         this.nomeProduto = nomeProduto;
         this.descProduto = descProduto;
         this.precoProduto = precoProduto;
+        this.tipoProduto = tipoProduto;
         this.imgProduto = imgProduto;
     }
 
-    //só nome, preco e qtd
-    public Produto(String nomeProduto, String qtdProduto, String precoProduto)
+    //só nome, preco, qtd e img
+    public Produto(String nomeProduto, String qtdProduto, String precoProduto, int imgProduto)
     {
         this.nomeProduto = nomeProduto;
-        this.precoProduto = precoProduto;
         this.qtdeProduto = qtdProduto;
+        this.precoProduto = precoProduto;
+        this.imgProduto = imgProduto;
     }
 
 }

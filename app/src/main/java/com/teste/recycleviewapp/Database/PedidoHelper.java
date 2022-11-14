@@ -45,8 +45,8 @@ public class PedidoHelper extends SQLiteOpenHelper
       SQLiteDatabase db = this.getWritableDatabase();
       ContentValues values = new ContentValues();
       values.put(PedidoTabela.EntradaPedido.COLUMN_NAME, titulo);
-      values.put(PedidoTabela.EntradaPedido.COLUMN_PRICE, preco);
       values.put(PedidoTabela.EntradaPedido.COLUMN_QUANTITY, qtd);
+      values.put(PedidoTabela.EntradaPedido.COLUMN_PRICE, preco);
       float insert = db.insert(PedidoTabela.EntradaPedido.TABLE_NAME, null, values);
       if(insert==-1)
       {
@@ -55,7 +55,7 @@ public class PedidoHelper extends SQLiteOpenHelper
       }
      else
       {
-          return "Sucesso ao adicionar ao carrinho!";
+          return "Adicionado ao carrinho!";
       }
 
     }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,6 +43,7 @@ public class AdapterCarrinho extends RecyclerView.Adapter<AdapterCarrinho.ViewHo
         holder.mdescProduto.setText(carrinho.get(position).getDescProduto());
         holder.mprecoProduto.setText(carrinho.get(position).getPrecoProduto());
         holder.mqtdProduto.setText(carrinho.get(position).getQtdeProduto());
+        holder.mImageProduto.setImageResource(carrinho.get(position).getImgProduto());
     }
 
     @Override
@@ -53,6 +55,7 @@ public class AdapterCarrinho extends RecyclerView.Adapter<AdapterCarrinho.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder
     {
         TextView mnomeProduto, mdescProduto, mprecoProduto, mqtdProduto;
+        ImageView mImageProduto;
 
         public ViewHolder(@NonNull View itemView)
         {
@@ -61,6 +64,7 @@ public class AdapterCarrinho extends RecyclerView.Adapter<AdapterCarrinho.ViewHo
             mdescProduto = itemView.findViewById(R.id.descProduto);
             mprecoProduto = itemView.findViewById(R.id.precoProduto);
             mqtdProduto = itemView.findViewById(R.id.qtdProduto);
+            mImageProduto = itemView.findViewById(R.id.imgProduto);
         }
     }
 }

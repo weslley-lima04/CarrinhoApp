@@ -31,6 +31,7 @@ public class CarrinhoActivity extends AppCompatActivity
     AdapterCarrinho adapterCarrinho;
     ArrayList<Produto> carrinho;
     Button limpar;
+    int img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -48,7 +49,6 @@ public class CarrinhoActivity extends AppCompatActivity
             public void onClick(View view)
             {
                new PedidoHelper(CarrinhoActivity.this).limparCarrinho(CarrinhoActivity.this);
-               finish();
             }
         });
 
@@ -57,7 +57,27 @@ public class CarrinhoActivity extends AppCompatActivity
         Cursor cursor = new PedidoHelper(this).getPedido();
         while (cursor.moveToNext())
         {
-            Produto produto = new Produto(cursor.getString(1), cursor.getString(2), cursor.getString(3));
+            String titulo = cursor.getString(1);
+            switch (titulo)
+            {
+                case "Água":
+                    img = R.drawable.agua;
+                    break;
+                case "Bolo":
+                    img = R.drawable.bolo;
+                    break;
+                case "Refrigerante":
+                    img = R.drawable.refri;
+                    break;
+                case "Salada":
+                    img = R.drawable.salada;
+                    break;
+                case "Suco":
+                    img = R.drawable.suco;
+                    break;
+            }
+
+            Produto produto = new Produto(cursor.getString(1), cursor.getString(2), cursor.getString(3), img);
             carrinho.add(produto);
         }
 

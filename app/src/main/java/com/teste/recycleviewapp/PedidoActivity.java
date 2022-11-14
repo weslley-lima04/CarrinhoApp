@@ -2,15 +2,7 @@ package com.teste.recycleviewapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.LoaderManager;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,16 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.teste.recycleviewapp.Database.PedidoHelper;
-import com.teste.recycleviewapp.Database.PedidoTabela;
 
 public class PedidoActivity extends AppCompatActivity
 {
 
     ImageView imagePedido;
     ImageButton mais, menos;
-    TextView qtdItens, nomeProduto, preco;
+    TextView qtdItens, nomeProduto, preco, descPedido;
     Button addtoCart;
     int quantidadeItens = 1;
 
@@ -45,16 +35,19 @@ public class PedidoActivity extends AppCompatActivity
         nomeProduto = findViewById(R.id.nomeItemPedido);
         preco = findViewById(R.id.precoPedido);
         addtoCart = findViewById(R.id.addtoCart);
+        descPedido = findViewById(R.id.descPedidoActivity);
 
 
         //getExtras
         Intent intent = getIntent();
-        String titulo, precoS;
+        String titulo, precoS, descS;
         int img;
         titulo = intent.getExtras().getString("Titulo");
         precoS = intent.getExtras().getString("Preco");
         img = intent.getExtras().getInt("Imagem");
+        descS = intent.getExtras().getString("Desc");
 
+        descPedido.setText(descS);
         nomeProduto.setText(titulo);
         preco.setText(precoS);
         imagePedido.setImageResource(img);
@@ -65,14 +58,12 @@ public class PedidoActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-
-                //Intent intent = new Intent(PedidoActivity.this, CarrinhoActivity.class);
-               //startActivity(intent);
                 String nomeItem = nomeProduto.getText().toString();
                 String precoItem = preco.getText().toString();
                 String qtdItem = qtdItens.getText().toString();
                 SaveCart(nomeItem, precoItem, qtdItem);
-
+                Intent intent = new Intent(PedidoActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 

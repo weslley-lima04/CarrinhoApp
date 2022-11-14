@@ -2,20 +2,16 @@ package com.teste.recycleviewapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -63,6 +59,7 @@ public class AdapterMain extends RecyclerView.Adapter<AdapterMain.ViewHolder>
                 intent.putExtra("Titulo", itens.get(position).getNomeProduto());
                 intent.putExtra("Preco", itens.get(position).getPrecoProduto());
                 intent.putExtra("Imagem", itens.get(position).getImgProduto());
+                intent.putExtra("Desc", itens.get(position).getDescProduto());
                 context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 
                // Toast.makeText(context, "Funciona", Toast.LENGTH_SHORT).show();
