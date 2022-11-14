@@ -78,4 +78,21 @@ public class Produto
         this.qtdeProduto = qtdeProduto;
     }
 
+    //pro Feed
+    public Produto(String nomeProduto, String descProduto, String precoProduto, int imgProduto)
+    {
+        this.nomeProduto = nomeProduto;
+        this.descProduto = descProduto;
+        this.precoProduto = precoProduto;
+        this.imgProduto = imgProduto;
+    }
+
+    //só nome, preco e qtd
+    public Produto(String nomeProduto, String qtdProduto, String precoProduto)
+    {
+        this.nomeProduto = nomeProduto;
+        this.precoProduto = precoProduto;
+        this.qtdeProduto = qtdProduto;
+    }
+
 }

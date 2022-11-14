@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PedidoActivity">
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/fotoProduto"
+        android:layout_width="380dp"
+        android:layout_height="450dp"
+        android:layout_marginTop="20dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        app:layout_constraintBottom_toTopOf="@id/addtoCart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imagePedido"
+                android:layout_width="300dp"
+                android:layout_height="325dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/agua"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/nomeItemPedido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:text="Nome do Produto"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="@id/imagePedido"
+                app:layout_constraintTop_toBottomOf="@id/imagePedido" />
+
+
+            <TextView
+                android:id="@+id/precoPedido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/nomeItemPedido"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:text="0.00"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="@id/imagePedido"
+                app:layout_constraintTop_toBottomOf="@id/imagePedido" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@id/imagePedido"
+                app:layout_constraintStart_toStartOf="@id/imagePedido"
+                app:layout_constraintTop_toBottomOf="@id/precoPedido">
+
+                <ImageButton
+
+                    android:id="@+id/addquantity"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/ic_baseline_add" />
+
+                <TextView
+                    android:id="@+id/quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="0"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
+
+
+                <ImageButton
+                    android:id="@+id/subquantity"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/ic_baseline_min" />
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <Button
+
+        android:id="@+id/addtoCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Adicionar ao carrinho"
+        app:layout_constraintEnd_toEndOf="@id/fotoProduto"
+        app:layout_constraintStart_toStartOf="@id/fotoProduto"
+        app:layout_constraintTop_toBottomOf="@id/fotoProduto" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
