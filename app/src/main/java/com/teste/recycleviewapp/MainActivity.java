@@ -4,16 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
 {
-    RecyclerView lista_teste;
-    List<Produto> produto;
-
+    RecyclerView listaItens;
+    ArrayList<Produto> itens;
+    FloatingActionButton btnCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -21,23 +24,40 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //inflar layout?
-        lista_teste = findViewById(R.id.testeRecView);
+        listaItens = findViewById(R.id.listaItens);
+        btnCart = findViewById(R.id.btnCart);
 
-        produto = new ArrayList<>();
+        itens = new ArrayList<>();
 
-        //aqui adicionaria objetos ao array
-        produto.add(new Produto("Água sem gás", "Bebida", "Água", "2,50", R.drawable.agua, "2"));
-        produto.add(new Produto("Chocolate", "Doces", "Bolo", "6,00", R.drawable.bolo, "1"));
+        //os itens a se adicionar
+        itens.add(new Produto("Água", "Água sem gás", "2.50", R.drawable.agua));
+        itens.add(new Produto("Bolo", "Chocolate", "6.00", R.drawable.bolo));
+        itens.add(new Produto( "Refrigerante", "Coca Cola", "5.00", R.drawable.refri));
+        itens.add(new Produto( "Salada", "Alface e tomate", "7.00", R.drawable.salada));
+        itens.add(new Produto( "Suco", "Laranja", "5.00", R.drawable.suco));
 
-        //aqui instancia o adapter
-        AdapterProduto adapterProduto = new AdapterProduto(getApplicationContext(), produto);
 
-        lista_teste.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
-        lista_teste.hasFixedSize();
+        //instanciar adapter
+        AdapterMain adapterItens = new AdapterMain(getApplicationContext(), itens);
+
+        listaItens.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+        listaItens.hasFixedSize();
 
         //aqui o setadapter
-        lista_teste.setAdapter(adapterProduto);
+        listaItens.setAdapter(adapterItens);
+
+        btnCart.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(getApplicationContext(), CarrinhoActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
+
+
+
 }
