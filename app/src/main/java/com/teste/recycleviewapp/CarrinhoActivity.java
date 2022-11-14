@@ -1,29 +1,27 @@
 package com.teste.recycleviewapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.LoaderManager;
-import android.content.CursorLoader;
-import android.content.Intent;
-import android.content.Loader;
+import android.content.ContentValues;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.teste.recycleviewapp.Database.PedidoHelper;
-import com.teste.recycleviewapp.Database.PedidoTabela;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.TimeZone;
 
 public class CarrinhoActivity extends AppCompatActivity
 {
@@ -31,7 +29,10 @@ public class CarrinhoActivity extends AppCompatActivity
     RecyclerView lista_teste;
     AdapterCarrinho adapterCarrinho;
     ArrayList<Produto> carrinho;
-    Button limpar;
+    Button limpar, btnEnviarPedido;
+    TextView totalPedido;
+    double calculaTotal = 0;
+    String total;
     int img;
 
 
@@ -45,6 +46,9 @@ public class CarrinhoActivity extends AppCompatActivity
         adapterCarrinho = new AdapterCarrinho(getApplicationContext(), carrinho);
         lista_teste = findViewById(R.id.testeRecView);
         limpar = findViewById(R.id.btnLimpar);
+        btnEnviarPedido = findViewById(R.id.btnEviarPedido);
+        totalPedido = findViewById(R.id.totalPedido);
+
 
         limpar.setOnClickListener(new View.OnClickListener()
         {
@@ -60,6 +64,26 @@ public class CarrinhoActivity extends AppCompatActivity
                overridePendingTransition(0, 0);
             }
         });
+
+
+        btnEnviarPedido.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                int idCliente = new Cliente().getIdCliente();
+                enviarPedido(idCliente, gerarData(), total);
+                //limpando a tela
+                Snackbar snackbar = Snackbar.make(view, "Pedido realizado com sucesso!", Snackbar.LENGTH_LONG);
+                snackbar.setBackgroundTint(Color.rgb(20, 173, 0));
+                snackbar.show();
+
+            }
+        });
+
+
+
+
 
 
         //fazendo o looping para mostrar os dados
@@ -86,9 +110,16 @@ public class CarrinhoActivity extends AppCompatActivity
                     break;
             }
 
+            calculaTotal = calculaTotal + Double.parseDouble(cursor.getString(3));
+
             Produto produto = new Produto(cursor.getString(1), cursor.getString(2), cursor.getString(3), img);
             carrinho.add(produto);
         }
+
+
+
+        total = String.valueOf(calculaTotal);
+        totalPedido.setText(total);
 
 
         lista_teste = findViewById(R.id.testeRecView);
@@ -102,7 +133,52 @@ public class CarrinhoActivity extends AppCompatActivity
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
+
+
+    private void enviarPedido(int idCliente, String dataPedido, String totalPedido)
+    {
+
+
+        //Conexão entre o Android e o PHP através do Hash.
+        //HashMap<String, String> params = new HashMap<>();
+        //params.put("itens", this.getItens());
+
+    /*
+
+        ContentValues values = new ContentValues();
+        values.put("IDCliente", idCliente);
+        values.put("DataPedido", dataPedido);
+        values.put("ValorPedido", totalPedido);
+
+
+        PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_CREATE_PEDIDO, values, 1025);
+
+        try
+        {
+            request.execute();
+            Toast.makeText(this, "Pedido realizado com sucesso!", Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this, "Não foi possível realizar seu pedido...", Toast.LENGTH_SHORT).show();
+        }
+        */
+
+    }
+
+
+
+    public String gerarData()
+    {
+
+        DateFormat formatter = DateFormat.getDateTimeInstance();
+        formatter.setTimeZone(TimeZone.getTimeZone("GMT-3"));
+        Date date = new Date(System.currentTimeMillis());
+        return formatter.format(date);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
