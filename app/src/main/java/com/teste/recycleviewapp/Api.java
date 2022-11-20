@@ -2,7 +2,7 @@ package com.teste.recycleviewapp;
 
 public class Api
 {
-    private static final String ROOT_URL = "http://127.0.0.1/api/CantinaAPI/v1/Api.php?apicall=";
+    private static final String ROOT_URL = "http://localhost/api/CantinaAPI/v1/Api.php?apicall=";
 
     public static final String URL_CREATE_HERO = ROOT_URL + "createProdutos";
     public static final String URL_READ_HEROES = ROOT_URL + "getProdutos";

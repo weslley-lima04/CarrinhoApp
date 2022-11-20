@@ -28,7 +28,7 @@ public class RequestHandler
         try
         {
             //Inicializando Url
-            url = new URL(requestURL);
+            url = new URL("http://seu-ip-aqui/API/CantinaAPI/v1/Api.php?apicall=createPedido");
 
             //criando uma conexão httmlurl
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();

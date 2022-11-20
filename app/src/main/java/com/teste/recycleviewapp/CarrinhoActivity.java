@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,9 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.teste.recycleviewapp.Database.PedidoHelper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -35,7 +39,8 @@ public class CarrinhoActivity extends AppCompatActivity
     String total;
     int img;
 
-
+    private static final int CODE_GET_REQUEST = 1024;
+    private static final int CODE_POST_REQUEST = 1025;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -142,18 +147,20 @@ public class CarrinhoActivity extends AppCompatActivity
 
 
         //Conexão entre o Android e o PHP através do Hash.
-        //HashMap<String, String> params = new HashMap<>();
+        HashMap<String, String> params = new HashMap<>();
         //params.put("itens", this.getItens());
-
-    /*
-
-        ContentValues values = new ContentValues();
-        values.put("IDCliente", idCliente);
-        values.put("DataPedido", dataPedido);
-        values.put("ValorPedido", totalPedido);
+        params.put("IDCliente", String.valueOf(idCliente));
+        params.put("DataPedido", dataPedido);
+        params.put("ValorPedido", totalPedido);
 
 
-        PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_CREATE_PEDIDO, values, 1025);
+        //ContentValues values = new ContentValues();
+        //values.put("IDCliente", idCliente);
+        //values.put("DataPedido", dataPedido);
+        //values.put("ValorPedido", totalPedido);
+
+
+        PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_CREATE_PEDIDO, params, CODE_POST_REQUEST);
 
         try
         {
@@ -164,7 +171,7 @@ public class CarrinhoActivity extends AppCompatActivity
         {
             Toast.makeText(this, "Não foi possível realizar seu pedido...", Toast.LENGTH_SHORT).show();
         }
-        */
+
 
     }
 
@@ -197,4 +204,55 @@ public class CarrinhoActivity extends AppCompatActivity
     {
         super.onBackPressed();
     }
+
+
+    private class PerformNetworkRequest extends AsyncTask<Void, Void, String>
+    {
+        String url;
+        HashMap<String, String> params;
+        int requestCode;
+
+        PerformNetworkRequest(String url, HashMap<String, String> params, int requestCode) {
+            this.url = url;
+            this.params = params;
+            this.requestCode = requestCode;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+          //  progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+           // progressBar.setVisibility(GONE);
+            try {
+                JSONObject object = new JSONObject(s);
+                if (!object.getBoolean("error")) {
+                    Toast.makeText(getApplicationContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
+                 //   refreshHeroList(object.getJSONArray("heroes"));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            RequestHandler requestHandler = new RequestHandler();
+
+            if (requestCode == CODE_POST_REQUEST)
+                return requestHandler.sendPostRequest(url, params);
+
+
+            if (requestCode == CODE_GET_REQUEST)
+                return requestHandler.sendGetRequest(url);
+
+            return null;
+        }
+    }
+
+
 }

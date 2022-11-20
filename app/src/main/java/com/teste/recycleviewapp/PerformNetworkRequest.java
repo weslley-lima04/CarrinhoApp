@@ -54,6 +54,7 @@ public class PerformNetworkRequest extends AsyncTask<Void, Void, String>
             {
                 //Toast.makeText(getApplicationContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
                // refreshHeroList(object.getJSONArray("pedido"));
+                System.out.println("Erro!");
             }
         } catch (JSONException e)
         {
