@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -37,6 +38,7 @@ public class CarrinhoActivity extends AppCompatActivity
     TextView totalPedido;
     double calculaTotal = 0;
     String total;
+    ArrayList<String> IDsProduto, QtdsProduto;
     int img;
 
     private static final int CODE_GET_REQUEST = 1024;
@@ -48,6 +50,8 @@ public class CarrinhoActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrinho);
         carrinho = new ArrayList<>();
+        IDsProduto = new ArrayList<>();
+        QtdsProduto = new ArrayList<>();
         adapterCarrinho = new AdapterCarrinho(getApplicationContext(), carrinho);
         lista_teste = findViewById(R.id.testeRecView);
         limpar = findViewById(R.id.btnLimpar);
@@ -78,6 +82,7 @@ public class CarrinhoActivity extends AppCompatActivity
             {
                 int idCliente = new Cliente().getIdCliente();
                 enviarPedido(idCliente, gerarData(), total);
+                //enviarProdutos(1, IDsProduto, QtdsProduto);
                 //limpando a tela
                 Snackbar snackbar = Snackbar.make(view, "Pedido realizado com sucesso!", Snackbar.LENGTH_LONG);
                 snackbar.setBackgroundTint(Color.rgb(20, 173, 0));
@@ -87,15 +92,11 @@ public class CarrinhoActivity extends AppCompatActivity
         });
 
 
-
-
-
-
         //fazendo o looping para mostrar os dados
         Cursor cursor = new PedidoHelper(this).getPedido();
         while (cursor.moveToNext())
         {
-            String titulo = cursor.getString(1);
+            String titulo = cursor.getString(2);
             switch (titulo)
             {
                 case "Água":
@@ -115,9 +116,11 @@ public class CarrinhoActivity extends AppCompatActivity
                     break;
             }
 
-            calculaTotal = calculaTotal + Double.parseDouble(cursor.getString(3));
-
-            Produto produto = new Produto(cursor.getString(1), cursor.getString(2), cursor.getString(3), img);
+            calculaTotal = calculaTotal + Double.parseDouble(cursor.getString(4));
+            IDsProduto.add(cursor.getString(1));
+            QtdsProduto.add(cursor.getString(3));
+            //1 ID, 2 titulo, 3 qtd, 4 preco
+            Produto produto = new Produto(cursor.getString(2), cursor.getString(3), cursor.getString(4), img);
             carrinho.add(produto);
         }
 
@@ -147,17 +150,11 @@ public class CarrinhoActivity extends AppCompatActivity
 
 
         //Conexão entre o Android e o PHP através do Hash.
+        //a chave tem de ser o mesmo nome dos parametros da função
         HashMap<String, String> params = new HashMap<>();
-        //params.put("itens", this.getItens());
         params.put("IDCliente", String.valueOf(idCliente));
         params.put("DataPedido", dataPedido);
         params.put("ValorPedido", totalPedido);
-
-
-        //ContentValues values = new ContentValues();
-        //values.put("IDCliente", idCliente);
-        //values.put("DataPedido", dataPedido);
-        //values.put("ValorPedido", totalPedido);
 
 
         PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_CREATE_PEDIDO, params, CODE_POST_REQUEST);
@@ -165,7 +162,7 @@ public class CarrinhoActivity extends AppCompatActivity
         try
         {
             request.execute();
-            Toast.makeText(this, "Pedido realizado com sucesso!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Pedido realizado com sucesso!", Toast.LENGTH_LONG).show();
         }
         catch (Exception e)
         {
@@ -175,6 +172,31 @@ public class CarrinhoActivity extends AppCompatActivity
 
     }
 
+    private void enviarProdutos(int IDPedido, ArrayList<String> idProduto, ArrayList<String> qtdProduto)
+    {
+        //HashMap<String, ArrayList<Integer>> params = new HashMap<>();
+       /* for (int i = 0; i < idProduto.size()-1; i++)
+        {}*/
+
+        //não funciona
+
+            HashMap<String, String> params = new HashMap<>();
+            params.put("IDPedido", String.valueOf(IDPedido));
+            params.put("IDProduto", String.valueOf(idProduto.get(0)));
+            params.put("QuantidadeVendida", String.valueOf(qtdProduto.get(0)));
+            PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_CADASTRA_ITENS, params, CODE_POST_REQUEST);
+            try
+            {
+                request.execute();
+
+            }
+            catch (Exception e)
+            {
+                Toast.makeText(this, "Não foi possível cadastrar este produto.", Toast.LENGTH_LONG).show();
+            }
+
+
+    }
 
 
     public String gerarData()
@@ -203,55 +225,6 @@ public class CarrinhoActivity extends AppCompatActivity
     public void onBackPressed()
     {
         super.onBackPressed();
-    }
-
-
-    private class PerformNetworkRequest extends AsyncTask<Void, Void, String>
-    {
-        String url;
-        HashMap<String, String> params;
-        int requestCode;
-
-        PerformNetworkRequest(String url, HashMap<String, String> params, int requestCode) {
-            this.url = url;
-            this.params = params;
-            this.requestCode = requestCode;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-          //  progressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-           // progressBar.setVisibility(GONE);
-            try {
-                JSONObject object = new JSONObject(s);
-                if (!object.getBoolean("error")) {
-                    Toast.makeText(getApplicationContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
-                 //   refreshHeroList(object.getJSONArray("heroes"));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            RequestHandler requestHandler = new RequestHandler();
-
-            if (requestCode == CODE_POST_REQUEST)
-                return requestHandler.sendPostRequest(url, params);
-
-
-            if (requestCode == CODE_GET_REQUEST)
-                return requestHandler.sendGetRequest(url);
-
-            return null;
-        }
     }
 
 

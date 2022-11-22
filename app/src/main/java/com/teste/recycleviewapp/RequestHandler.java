@@ -17,6 +17,8 @@ import javax.net.ssl.HttpsURLConnection;
 public class RequestHandler
 {
 
+
+
     public String sendPostRequest(String requestURL,
                                   HashMap<String, String> postDataParams)
     {
@@ -28,7 +30,7 @@ public class RequestHandler
         try
         {
             //Inicializando Url
-            url = new URL("http://seu-ip-aqui/API/CantinaAPI/v1/Api.php?apicall=createPedido");
+            url = new URL(requestURL);
 
             //criando uma conexão httmlurl
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();

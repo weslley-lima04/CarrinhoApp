@@ -1,20 +1,18 @@
 package com.teste.recycleviewapp;
 
 
-import android.content.ContentValues;
+
 import android.os.AsyncTask;
 import android.view.View;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 
 public class PerformNetworkRequest extends AsyncTask<Void, Void, String>
 {
     String url;
     HashMap<String, String> params;
-    ContentValues values;
     int requestCode;
     private static final int CODE_GET_REQUEST = 1024;
     private static final int CODE_POST_REQUEST = 1025;
@@ -25,14 +23,6 @@ public class PerformNetworkRequest extends AsyncTask<Void, Void, String>
         this.params = params;
         this.requestCode = requestCode;
     }
-
-    PerformNetworkRequest(String url, ContentValues values, int requestCode)
-    {
-        this.url = url;
-        this.values = values;
-        this.requestCode = requestCode;
-    }
-
 
 
     @Override
@@ -47,14 +37,13 @@ public class PerformNetworkRequest extends AsyncTask<Void, Void, String>
     {
         super.onPostExecute(s);
         //     progressBar.setVisibility(GONE);
-        try
+       try
         {
             JSONObject object = new JSONObject(s);
             if (!object.getBoolean("error"))
             {
                 //Toast.makeText(getApplicationContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
                // refreshHeroList(object.getJSONArray("pedido"));
-                System.out.println("Erro!");
             }
         } catch (JSONException e)
         {

@@ -21,6 +21,7 @@ public class PedidoActivity extends AppCompatActivity
     ImageButton mais, menos;
     TextView qtdItens, nomeProduto, preco, descPedido;
     Button addtoCart;
+    TextView recebeIDProduto;
     int quantidadeItens = 1;
 
     @Override
@@ -29,6 +30,7 @@ public class PedidoActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pedido);
 
+        recebeIDProduto = findViewById(R.id.recebeIDProduto);
         imagePedido = findViewById(R.id.imagePedido);
         mais = findViewById(R.id.addquantity);
         menos = findViewById(R.id.subquantity);
@@ -41,13 +43,16 @@ public class PedidoActivity extends AppCompatActivity
 
         //getExtras
         Intent intent = getIntent();
-        String titulo, precoS, descS;
+        String titulo, precoS, descS, idS;
         int img;
+        idS = intent.getExtras().getString("ID");
         titulo = intent.getExtras().getString("Titulo");
         precoS = intent.getExtras().getString("Preco");
         img = intent.getExtras().getInt("Imagem");
         descS = intent.getExtras().getString("Desc");
 
+
+        recebeIDProduto.setText(idS);
         descPedido.setText(descS);
         nomeProduto.setText(titulo);
         preco.setText(precoS);

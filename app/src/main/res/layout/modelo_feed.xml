@@ -61,7 +61,16 @@
             android:text="Comprar"
             android:layout_below="@id/nomeItemPedido"
             android:backgroundTint="#aba094"
+            />
 
+        <TextView
+            android:visibility="invisible"
+            android:id="@+id/idProduto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:layout_below="@id/addCart"
+            android:layout_margin="5dp"
             />
 
 

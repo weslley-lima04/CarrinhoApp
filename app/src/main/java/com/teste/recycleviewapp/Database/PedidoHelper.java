@@ -26,6 +26,7 @@ public class PedidoHelper extends SQLiteOpenHelper
     {
         String SQL_TABLE = "CREATE TABLE " + PedidoTabela.EntradaPedido.TABLE_NAME + "("
                 + PedidoTabela.EntradaPedido._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                +  PedidoTabela.EntradaPedido.ID_PRODUTO + " TEXT NOT NULL, "
                 +  PedidoTabela.EntradaPedido.COLUMN_NAME + " TEXT NOT NULL, "
                 +  PedidoTabela.EntradaPedido.COLUMN_QUANTITY + " TEXT NOT NULL, "
                 +  PedidoTabela.EntradaPedido.COLUMN_PRICE + " TEXT NOT NULL);";
@@ -44,6 +45,7 @@ public class PedidoHelper extends SQLiteOpenHelper
     {
       SQLiteDatabase db = this.getWritableDatabase();
       ContentValues values = new ContentValues();
+      values.put(PedidoTabela.EntradaPedido.ID_PRODUTO, titulo);
       values.put(PedidoTabela.EntradaPedido.COLUMN_NAME, titulo);
       values.put(PedidoTabela.EntradaPedido.COLUMN_QUANTITY, qtd);
       values.put(PedidoTabela.EntradaPedido.COLUMN_PRICE, preco);

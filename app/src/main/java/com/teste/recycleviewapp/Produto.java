@@ -2,12 +2,25 @@ package com.teste.recycleviewapp;
 
 public class Produto
 {
+
+
+    private String idProduto;
     private String nomeProduto;
     private String precoProduto;
     private int imgProduto;
     private String qtdeProduto;
     private String descProduto;
     private String tipoProduto;
+
+    public String getIdProduto()
+    {
+        return idProduto;
+    }
+
+    public void setIdProduto(String idProduto)
+    {
+        this.idProduto = idProduto;
+    }
 
     public int getImgProduto()
     {
@@ -79,8 +92,9 @@ public class Produto
     }
 
     //pro Feed
-    public Produto(String nomeProduto, String descProduto, String precoProduto, String tipoProduto, int imgProduto)
+    public Produto(String idProduto, String nomeProduto, String descProduto, String precoProduto, String tipoProduto, int imgProduto)
     {
+        this.idProduto = idProduto;
         this.nomeProduto = nomeProduto;
         this.descProduto = descProduto;
         this.precoProduto = precoProduto;

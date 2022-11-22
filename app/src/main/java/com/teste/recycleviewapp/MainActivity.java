@@ -30,11 +30,11 @@ public class MainActivity extends AppCompatActivity
         itens = new ArrayList<>();
 
         //os itens a se adicionar
-        itens.add(new Produto("Água", "Água sem gás", "2.50", "bebida", R.drawable.agua));
-        itens.add(new Produto("Bolo", "Chocolate", "6.00", "bebida" ,R.drawable.bolo));
-        itens.add(new Produto( "Refrigerante", "Coca Cola", "5.00", "bebida" ,R.drawable.refri));
-        itens.add(new Produto( "Salada", "Alface e tomate", "7.00", "bebida" ,R.drawable.salada));
-        itens.add(new Produto( "Suco", "Laranja", "5.00","bebida", R.drawable.suco));
+        itens.add(new Produto("6","Água", "Água sem gás", "2.50", "bebida", R.drawable.agua));
+        itens.add(new Produto("7","Bolo", "Chocolate", "6.00", "bebida" ,R.drawable.bolo));
+        itens.add(new Produto("8", "Refrigerante", "Coca Cola", "5.00", "bebida" ,R.drawable.refri));
+        itens.add(new Produto("9", "Salada", "Alface e tomate", "7.00", "bebida" ,R.drawable.salada));
+        itens.add(new Produto("10", "Suco", "Laranja", "5.00","bebida", R.drawable.suco));
 
 
         //instanciar adapter

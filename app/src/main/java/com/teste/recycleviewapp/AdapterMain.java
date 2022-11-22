@@ -47,7 +47,7 @@ public class AdapterMain extends RecyclerView.Adapter<AdapterMain.ViewHolder>
         holder.desc.setText(itens.get(position).getDescProduto());
         holder.preco.setText(itens.get(position).getPrecoProduto());
         holder.img.setImageResource(itens.get(position).getImgProduto());
-
+        holder.idProduto.setText(itens.get(position).getIdProduto());
 
         holder.addCart.setOnClickListener(new View.OnClickListener()
         {
@@ -60,6 +60,7 @@ public class AdapterMain extends RecyclerView.Adapter<AdapterMain.ViewHolder>
                 intent.putExtra("Preco", itens.get(position).getPrecoProduto());
                 intent.putExtra("Imagem", itens.get(position).getImgProduto());
                 intent.putExtra("Desc", itens.get(position).getDescProduto());
+                intent.putExtra("ID", itens.get(position).getIdProduto());
                 context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 
                // Toast.makeText(context, "Funciona", Toast.LENGTH_SHORT).show();
@@ -78,12 +79,14 @@ public class AdapterMain extends RecyclerView.Adapter<AdapterMain.ViewHolder>
     public class ViewHolder extends RecyclerView.ViewHolder
     {
         CardView modelofeed;
-        TextView titulo, desc, preco;
+        TextView titulo, desc, preco, idProduto;
         ImageView img;
         Button addCart;
+
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
+            idProduto = itemView.findViewById(R.id.idProduto);
             modelofeed = itemView.findViewById(R.id.modelofeed);
             titulo = itemView.findViewById(R.id.tituloItem);
             desc = itemView.findViewById(R.id.nomeItemPedido);
