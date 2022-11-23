@@ -103,8 +103,9 @@ public class Produto
     }
 
     //só nome, preco, qtd e img
-    public Produto(String nomeProduto, String qtdProduto, String precoProduto, int imgProduto)
+    public Produto(String idProduto, String nomeProduto, String qtdProduto, String precoProduto, int imgProduto)
     {
+        this.idProduto = idProduto;
         this.nomeProduto = nomeProduto;
         this.qtdeProduto = qtdProduto;
         this.precoProduto = precoProduto;

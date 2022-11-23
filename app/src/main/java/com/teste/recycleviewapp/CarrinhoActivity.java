@@ -81,9 +81,12 @@ public class CarrinhoActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 int idCliente = new Cliente().getIdCliente();
-                enviarPedido(idCliente, gerarData(), total);
-                //enviarProdutos(1, IDsProduto, QtdsProduto);
-                //limpando a tela
+                if(enviarPedido(idCliente, gerarData(), total))
+                {
+                  // enviarProdutos(1, IDsProduto, QtdsProduto);
+                }
+
+
                 Snackbar snackbar = Snackbar.make(view, "Pedido realizado com sucesso!", Snackbar.LENGTH_LONG);
                 snackbar.setBackgroundTint(Color.rgb(20, 173, 0));
                 snackbar.show();
@@ -120,7 +123,7 @@ public class CarrinhoActivity extends AppCompatActivity
             IDsProduto.add(cursor.getString(1));
             QtdsProduto.add(cursor.getString(3));
             //1 ID, 2 titulo, 3 qtd, 4 preco
-            Produto produto = new Produto(cursor.getString(2), cursor.getString(3), cursor.getString(4), img);
+            Produto produto = new Produto(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), img);
             carrinho.add(produto);
         }
 
@@ -145,7 +148,7 @@ public class CarrinhoActivity extends AppCompatActivity
     }
 
 
-    private void enviarPedido(int idCliente, String dataPedido, String totalPedido)
+    private boolean enviarPedido(int idCliente, String dataPedido, String totalPedido)
     {
 
 
@@ -163,10 +166,12 @@ public class CarrinhoActivity extends AppCompatActivity
         {
             request.execute();
             Toast.makeText(this, "Pedido realizado com sucesso!", Toast.LENGTH_LONG).show();
+            return true;
         }
         catch (Exception e)
         {
             Toast.makeText(this, "Não foi possível realizar seu pedido...", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
 
@@ -174,7 +179,7 @@ public class CarrinhoActivity extends AppCompatActivity
 
     private void enviarProdutos(int IDPedido, ArrayList<String> idProduto, ArrayList<String> qtdProduto)
     {
-        //HashMap<String, ArrayList<Integer>> params = new HashMap<>();
+
        /* for (int i = 0; i < idProduto.size()-1; i++)
         {}*/
 

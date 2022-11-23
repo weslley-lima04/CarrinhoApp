@@ -17,7 +17,7 @@ public class PedidoTabela
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_URI, PATH);
         public static final String TABLE_NAME = "pedidos";
         public static final String _ID = BaseColumns._ID;
-        public static final String ID_PRODUTO = "idProduto";
+        public static final String COLUMN_ID = "idProduto";
         public static final String COLUMN_NAME = "nomeProduto";
         public static final String COLUMN_QUANTITY = "qtdProduto";
         public static final String COLUMN_PRICE = "precoProduto";

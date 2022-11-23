@@ -39,6 +39,7 @@ public class AdapterCarrinho extends RecyclerView.Adapter<AdapterCarrinho.ViewHo
     @Override
     public void onBindViewHolder(@NonNull AdapterCarrinho.ViewHolder holder, int position)
     {
+        holder.midProduto.setText(carrinho.get(position).getIdProduto());
         holder.mnomeProduto.setText(carrinho.get(position).getNomeProduto());
         holder.mdescProduto.setText(carrinho.get(position).getDescProduto());
         holder.mprecoProduto.setText(carrinho.get(position).getPrecoProduto());
@@ -54,12 +55,13 @@ public class AdapterCarrinho extends RecyclerView.Adapter<AdapterCarrinho.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        TextView mnomeProduto, mdescProduto, mprecoProduto, mqtdProduto;
+        TextView mnomeProduto, mdescProduto, mprecoProduto, mqtdProduto, midProduto;
         ImageView mImageProduto;
 
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
+            midProduto = itemView.findViewById(R.id.IDproduto_cart);
             mnomeProduto = itemView.findViewById(R.id.nomeProduto);
             mdescProduto = itemView.findViewById(R.id.descProduto);
             mprecoProduto = itemView.findViewById(R.id.precoProduto);
