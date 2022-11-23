@@ -82,8 +82,8 @@ public class CarrinhoActivity extends AppCompatActivity
             {
                 int idCliente = new Cliente().getIdCliente();
                 enviarPedido(idCliente, gerarData(), total);
-                //enviarProdutos(1, IDsProduto, QtdsProduto);
-                //limpando a tela
+                enviarProdutos(1, IDsProduto, QtdsProduto);
+
                 Snackbar snackbar = Snackbar.make(view, "Pedido realizado com sucesso!", Snackbar.LENGTH_LONG);
                 snackbar.setBackgroundTint(Color.rgb(20, 173, 0));
                 snackbar.show();
@@ -174,7 +174,7 @@ public class CarrinhoActivity extends AppCompatActivity
 
     private void enviarProdutos(int IDPedido, ArrayList<String> idProduto, ArrayList<String> qtdProduto)
     {
-        //HashMap<String, ArrayList<Integer>> params = new HashMap<>();
+
        /* for (int i = 0; i < idProduto.size()-1; i++)
         {}*/
 

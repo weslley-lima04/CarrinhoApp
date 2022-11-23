@@ -41,11 +41,11 @@ public class PedidoHelper extends SQLiteOpenHelper
     }
 
     //criando novos métodos de input e leitura
-    public String inputPedido(String titulo, String preco, String qtd)
+    public String inputPedido(String id, String titulo, String preco, String qtd)
     {
       SQLiteDatabase db = this.getWritableDatabase();
       ContentValues values = new ContentValues();
-      values.put(PedidoTabela.EntradaPedido.ID_PRODUTO, titulo);
+      values.put(PedidoTabela.EntradaPedido.ID_PRODUTO, id);
       values.put(PedidoTabela.EntradaPedido.COLUMN_NAME, titulo);
       values.put(PedidoTabela.EntradaPedido.COLUMN_QUANTITY, qtd);
       values.put(PedidoTabela.EntradaPedido.COLUMN_PRICE, preco);

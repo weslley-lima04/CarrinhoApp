@@ -64,10 +64,11 @@ public class PedidoActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
+                String idItem = recebeIDProduto.getText().toString();
                 String nomeItem = nomeProduto.getText().toString();
                 String precoItem = preco.getText().toString();
                 String qtdItem = qtdItens.getText().toString();
-                SaveCart(nomeItem, precoItem, qtdItem);
+                SaveCart(idItem, nomeItem, precoItem, qtdItem);
                 Intent intent = new Intent(PedidoActivity.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -114,9 +115,9 @@ public class PedidoActivity extends AppCompatActivity
     }
 
 
-    private void SaveCart(String nome, String preco, String qtd)
+    private void SaveCart(String id, String nome, String preco, String qtd)
     {
-        String insert = new PedidoHelper(this).inputPedido(nome, preco, qtd);
+        String insert = new PedidoHelper(this).inputPedido(id, nome, preco, qtd);
         Toast.makeText(this, insert, Toast.LENGTH_SHORT).show();
     }
 
