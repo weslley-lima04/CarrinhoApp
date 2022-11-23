@@ -75,26 +75,6 @@ public class CarrinhoActivity extends AppCompatActivity
         });
 
 
-        btnEnviarPedido.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                int idCliente = new Cliente().getIdCliente();
-                if(enviarPedido(idCliente, gerarData(), total))
-                {
-                  // enviarProdutos(1, IDsProduto, QtdsProduto);
-                }
-
-
-                Snackbar snackbar = Snackbar.make(view, "Pedido realizado com sucesso!", Snackbar.LENGTH_LONG);
-                snackbar.setBackgroundTint(Color.rgb(20, 173, 0));
-                snackbar.show();
-
-            }
-        });
-
-
         //fazendo o looping para mostrar os dados
         Cursor cursor = new PedidoHelper(this).getPedido();
         while (cursor.moveToNext())
@@ -119,14 +99,42 @@ public class CarrinhoActivity extends AppCompatActivity
                     break;
             }
 
+            //calculando total
             calculaTotal = calculaTotal + Double.parseDouble(cursor.getString(4));
-            IDsProduto.add(cursor.getString(1));
-            QtdsProduto.add(cursor.getString(3));
+            //QtdsProduto.add(cursor.getString(3));
+            //IDsProduto.add(produto.getIdProduto());
             //1 ID, 2 titulo, 3 qtd, 4 preco
             Produto produto = new Produto(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), img);
+
             carrinho.add(produto);
         }
 
+
+        btnEnviarPedido.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                int idCliente = new Cliente().getIdCliente();
+                if(enviarPedido(idCliente, gerarData(), total))
+                {
+                    //enviarProdutos(1, IDsProduto, QtdsProduto);
+
+                    for (int i = 0; i < carrinho.size()-1; i++)
+                    {
+                        enviarProdutos(carrinho.get(i));
+                    }
+
+
+                }
+
+
+                Snackbar snackbar = Snackbar.make(view, "Pedido realizado com sucesso!", Snackbar.LENGTH_LONG);
+                snackbar.setBackgroundTint(Color.rgb(20, 173, 0));
+                snackbar.show();
+
+            }
+        });
 
 
         total = String.valueOf(calculaTotal);
@@ -177,11 +185,41 @@ public class CarrinhoActivity extends AppCompatActivity
 
     }
 
+
+
+    private void enviarProdutos(Produto produto)
+    {
+
+       // for (int i = 0; i < idProduto.size()-1; i++)
+
+
+        //não funciona
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("IDPedido", String.valueOf(1));
+        params.put("IDProduto", String.valueOf(produto.getIdProduto()));
+        params.put("QuantidadeVendida", String.valueOf(produto.getQtdeProduto()));
+        PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_CADASTRA_ITENS, params, CODE_POST_REQUEST);
+        try
+        {
+            request.execute();
+
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this, "Não foi possível cadastrar este produto.", Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
+
+    /*
     private void enviarProdutos(int IDPedido, ArrayList<String> idProduto, ArrayList<String> qtdProduto)
     {
 
-       /* for (int i = 0; i < idProduto.size()-1; i++)
-        {}*/
+        for (int i = 0; i < idProduto.size()-1; i++)
+        {}
 
         //não funciona
 
@@ -201,7 +239,18 @@ public class CarrinhoActivity extends AppCompatActivity
             }
 
 
-    }
+    } */
+
+    /*
+    private ArrayList<String> preencheArray(Cursor cursor, ArrayList<String> array, int num)
+    {
+        while (cursor.moveToNext())
+        {
+            array.add(cursor.getString(num));
+        }
+
+        return array;
+    } */
 
 
     public String gerarData()
