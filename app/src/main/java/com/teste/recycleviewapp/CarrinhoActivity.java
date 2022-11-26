@@ -120,7 +120,7 @@ public class CarrinhoActivity extends AppCompatActivity
                 {
                     //enviarProdutos(1, IDsProduto, QtdsProduto);
 
-                    for (int i = 0; i < carrinho.size()-1; i++)
+                    for (int i = 0; i <=carrinho.size()-1; i++)
                     {
                         enviarProdutos(carrinho.get(i));
                     }
@@ -197,8 +197,11 @@ public class CarrinhoActivity extends AppCompatActivity
 
         HashMap<String, String> params = new HashMap<>();
         params.put("IDPedido", String.valueOf(1));
-        params.put("IDProduto", String.valueOf(produto.getIdProduto()));
-        params.put("QuantidadeVendida", String.valueOf(produto.getQtdeProduto()));
+        System.out.println("SAINDO VALORES");
+        params.put("IDProduto", produto.getIdProduto());
+        System.out.println(produto.getIdProduto());
+        params.put("QuantidadeVendida", produto.getQtdeProduto());
+        System.out.println(produto.getQtdeProduto());
         PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_CADASTRA_ITENS, params, CODE_POST_REQUEST);
         try
         {
@@ -213,44 +216,6 @@ public class CarrinhoActivity extends AppCompatActivity
 
     }
 
-
-    /*
-    private void enviarProdutos(int IDPedido, ArrayList<String> idProduto, ArrayList<String> qtdProduto)
-    {
-
-        for (int i = 0; i < idProduto.size()-1; i++)
-        {}
-
-        //não funciona
-
-            HashMap<String, String> params = new HashMap<>();
-            params.put("IDPedido", String.valueOf(IDPedido));
-            params.put("IDProduto", String.valueOf(idProduto.get(0)));
-            params.put("QuantidadeVendida", String.valueOf(qtdProduto.get(0)));
-            PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_CADASTRA_ITENS, params, CODE_POST_REQUEST);
-            try
-            {
-                request.execute();
-
-            }
-            catch (Exception e)
-            {
-                Toast.makeText(this, "Não foi possível cadastrar este produto.", Toast.LENGTH_LONG).show();
-            }
-
-
-    } */
-
-    /*
-    private ArrayList<String> preencheArray(Cursor cursor, ArrayList<String> array, int num)
-    {
-        while (cursor.moveToNext())
-        {
-            array.add(cursor.getString(num));
-        }
-
-        return array;
-    } */
 
 
     public String gerarData()
