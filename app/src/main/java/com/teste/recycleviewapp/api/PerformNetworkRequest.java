@@ -1,10 +1,9 @@
-package com.teste.recycleviewapp;
+package com.teste.recycleviewapp.api;
 
 
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,7 +17,7 @@ public class PerformNetworkRequest extends AsyncTask<Void, Void, String>
     private static final int CODE_GET_REQUEST = 1024;
     private static final int CODE_POST_REQUEST = 1025;
 
-    PerformNetworkRequest(String url, HashMap<String, String> params, int requestCode)
+    public PerformNetworkRequest(String url, HashMap<String, String> params, int requestCode)
     {
         this.url = url;
         this.params = params;

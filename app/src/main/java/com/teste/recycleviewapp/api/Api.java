@@ -1,4 +1,4 @@
-package com.teste.recycleviewapp;
+package com.teste.recycleviewapp.api;
 
 public class Api
 {

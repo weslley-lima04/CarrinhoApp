@@ -4,12 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,9 +15,8 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.teste.recycleviewapp.Database.PedidoHelper;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.teste.recycleviewapp.api.Api;
+import com.teste.recycleviewapp.api.PerformNetworkRequest;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -38,7 +34,6 @@ public class CarrinhoActivity extends AppCompatActivity
     TextView totalPedido;
     double calculaTotal = 0;
     String total;
-    ArrayList<String> IDsProduto, QtdsProduto;
     int img;
 
     private static final int CODE_GET_REQUEST = 1024;
@@ -50,8 +45,6 @@ public class CarrinhoActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrinho);
         carrinho = new ArrayList<>();
-        IDsProduto = new ArrayList<>();
-        QtdsProduto = new ArrayList<>();
         adapterCarrinho = new AdapterCarrinho(getApplicationContext(), carrinho);
         lista_teste = findViewById(R.id.testeRecView);
         limpar = findViewById(R.id.btnLimpar);
@@ -101,8 +94,7 @@ public class CarrinhoActivity extends AppCompatActivity
 
             //calculando total
             calculaTotal = calculaTotal + Double.parseDouble(cursor.getString(4));
-            //QtdsProduto.add(cursor.getString(3));
-            //IDsProduto.add(produto.getIdProduto());
+
             //1 ID, 2 titulo, 3 qtd, 4 preco
             Produto produto = new Produto(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), img);
 
@@ -118,21 +110,17 @@ public class CarrinhoActivity extends AppCompatActivity
                 int idCliente = new Cliente().getIdCliente();
                 if(enviarPedido(idCliente, gerarData(), total))
                 {
-                    //enviarProdutos(1, IDsProduto, QtdsProduto);
 
                     for (int i = 0; i <=carrinho.size()-1; i++)
                     {
                         enviarProdutos(carrinho.get(i));
                     }
 
-
                 }
-
 
                 Snackbar snackbar = Snackbar.make(view, "Pedido realizado com sucesso!", Snackbar.LENGTH_LONG);
                 snackbar.setBackgroundTint(Color.rgb(20, 173, 0));
                 snackbar.show();
-
             }
         });
 
@@ -158,15 +146,12 @@ public class CarrinhoActivity extends AppCompatActivity
 
     private boolean enviarPedido(int idCliente, String dataPedido, String totalPedido)
     {
-
-
         //Conexão entre o Android e o PHP através do Hash.
         //a chave tem de ser o mesmo nome dos parametros da função
         HashMap<String, String> params = new HashMap<>();
         params.put("IDCliente", String.valueOf(idCliente));
         params.put("DataPedido", dataPedido);
         params.put("ValorPedido", totalPedido);
-
 
         PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_CREATE_PEDIDO, params, CODE_POST_REQUEST);
 
@@ -185,15 +170,8 @@ public class CarrinhoActivity extends AppCompatActivity
 
     }
 
-
-
     private void enviarProdutos(Produto produto)
     {
-
-       // for (int i = 0; i < idProduto.size()-1; i++)
-
-
-        //não funciona
 
         HashMap<String, String> params = new HashMap<>();
         params.put("IDPedido", String.valueOf(1));
@@ -215,8 +193,6 @@ public class CarrinhoActivity extends AppCompatActivity
 
 
     }
-
-
 
     public String gerarData()
     {
