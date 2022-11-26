@@ -4,9 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +22,9 @@ import com.teste.recycleviewapp.Database.PedidoHelper;
 import com.teste.recycleviewapp.api.Api;
 import com.teste.recycleviewapp.api.PerformNetworkRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +33,7 @@ import java.util.TimeZone;
 
 public class CarrinhoActivity extends AppCompatActivity
 {
+
 
     RecyclerView lista_teste;
     AdapterCarrinho adapterCarrinho;
@@ -36,8 +44,6 @@ public class CarrinhoActivity extends AppCompatActivity
     String total;
     int img;
 
-    private static final int CODE_GET_REQUEST = 1024;
-    private static final int CODE_POST_REQUEST = 1025;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -97,7 +103,6 @@ public class CarrinhoActivity extends AppCompatActivity
 
             //1 ID, 2 titulo, 3 qtd, 4 preco
             Produto produto = new Produto(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), img);
-
             carrinho.add(produto);
         }
 
@@ -108,19 +113,24 @@ public class CarrinhoActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 int idCliente = new Cliente().getIdCliente();
-                if(enviarPedido(idCliente, gerarData(), total))
+                Pedido pedido = new Pedido(idCliente, calculaTotal);
+                boolean envio = pedido.enviarPedido();
+                if(envio)
                 {
-
                     for (int i = 0; i <=carrinho.size()-1; i++)
                     {
-                        enviarProdutos(carrinho.get(i));
+                        //precisa de um segundo parametro, id pedido, vindo da classe Pedido
+                        pedido.enviarProdutos(carrinho.get(i));
                     }
 
+                    Snackbar snackbar = Snackbar.make(view, "Pedido realizado com sucesso!", Snackbar.LENGTH_LONG);
+                    snackbar.setBackgroundTint(Color.rgb(20, 173, 0));
+                    snackbar.show();
                 }
-
-                Snackbar snackbar = Snackbar.make(view, "Pedido realizado com sucesso!", Snackbar.LENGTH_LONG);
-                snackbar.setBackgroundTint(Color.rgb(20, 173, 0));
-                snackbar.show();
+                else
+                {
+                    Toast.makeText(CarrinhoActivity.this, "Não foi possível realizar seu pedido...", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -141,66 +151,6 @@ public class CarrinhoActivity extends AppCompatActivity
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-    }
-
-
-    private boolean enviarPedido(int idCliente, String dataPedido, String totalPedido)
-    {
-        //Conexão entre o Android e o PHP através do Hash.
-        //a chave tem de ser o mesmo nome dos parametros da função
-        HashMap<String, String> params = new HashMap<>();
-        params.put("IDCliente", String.valueOf(idCliente));
-        params.put("DataPedido", dataPedido);
-        params.put("ValorPedido", totalPedido);
-
-        PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_CREATE_PEDIDO, params, CODE_POST_REQUEST);
-
-        try
-        {
-            request.execute();
-            Toast.makeText(this, "Pedido realizado com sucesso!", Toast.LENGTH_LONG).show();
-            return true;
-        }
-        catch (Exception e)
-        {
-            Toast.makeText(this, "Não foi possível realizar seu pedido...", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-
-    }
-
-    private void enviarProdutos(Produto produto)
-    {
-
-        HashMap<String, String> params = new HashMap<>();
-        params.put("IDPedido", String.valueOf(1));
-        System.out.println("SAINDO VALORES");
-        params.put("IDProduto", produto.getIdProduto());
-        System.out.println(produto.getIdProduto());
-        params.put("QuantidadeVendida", produto.getQtdeProduto());
-        System.out.println(produto.getQtdeProduto());
-        PerformNetworkRequest request = new PerformNetworkRequest(Api.URL_CADASTRA_ITENS, params, CODE_POST_REQUEST);
-        try
-        {
-            request.execute();
-
-        }
-        catch (Exception e)
-        {
-            Toast.makeText(this, "Não foi possível cadastrar este produto.", Toast.LENGTH_LONG).show();
-        }
-
-
-    }
-
-    public String gerarData()
-    {
-
-        DateFormat formatter = DateFormat.getDateTimeInstance();
-        formatter.setTimeZone(TimeZone.getTimeZone("GMT-3"));
-        Date date = new Date(System.currentTimeMillis());
-        return formatter.format(date);
     }
 
 
