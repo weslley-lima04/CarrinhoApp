@@ -5,6 +5,8 @@ package com.teste.recycleviewapp.api;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.teste.recycleviewapp.Pedido;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
@@ -42,13 +44,12 @@ public class PerformNetworkRequest extends AsyncTask<Void, Void, String>
             JSONObject object = new JSONObject(s);
             if (!object.getBoolean("error"))
             {
-                //Toast.makeText(getApplicationContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
                // refreshHeroList(object.getJSONArray("pedido"));
             }
         }
        catch (JSONException e)
         {
-           // e.printStackTrace();
+
             Log.e("JSON Parser", "Error parsing data [" + e.getMessage()+"] "+ s);
         }
     }

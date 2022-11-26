@@ -9,7 +9,7 @@ public class Api
     public static final String URL_UPDATE_HERO = ROOT_URL + "updateProdutos";
     public static final String URL_DELETE_HERO = ROOT_URL + "deleteProdutos&IDProduto=";
     public static final String URL_CREATE_PEDIDO = ROOT_URL + "createPedido";
-   // public static final String URL_CADASTRA_ITENS = ROOT_URL + "cadastraItensPedidos";
-    public static final String URL_CADASTRA_ITENS = "http://192.168.1.14/CantinaAPI/CantinaAPI/includes/ItensVendidos.php";
+
+    public static final String URL_CADASTRA_ITENS = ROOT_URL + "cadastraItens";
 
 }

@@ -122,7 +122,6 @@ public class CarrinhoActivity extends AppCompatActivity
                         //precisa de um segundo parametro, id pedido, vindo da classe Pedido
                         pedido.enviarProdutos(carrinho.get(i));
                     }
-
                     Snackbar snackbar = Snackbar.make(view, "Pedido realizado com sucesso!", Snackbar.LENGTH_LONG);
                     snackbar.setBackgroundTint(Color.rgb(20, 173, 0));
                     snackbar.show();

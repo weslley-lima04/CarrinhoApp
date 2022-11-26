@@ -1,10 +1,12 @@
 package com.teste.recycleviewapp;
 
 
-import android.widget.Toast;
-
 import com.teste.recycleviewapp.api.Api;
 import com.teste.recycleviewapp.api.PerformNetworkRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -20,6 +22,12 @@ public class Pedido
     private double valorPedido;
     private static final int CODE_GET_REQUEST = 1024;
     private static final int CODE_POST_REQUEST = 1025;
+
+
+    public Pedido()
+    {
+
+    }
 
     public Pedido(int idPedido, int idCliente, String dataPedido, double valorPedido)
     {
@@ -65,7 +73,6 @@ public class Pedido
     {
 
         HashMap<String, String> params = new HashMap<>();
-        params.put("IDPedido", String.valueOf(1));
         System.out.println("SAINDO VALORES");
         params.put("IDProduto", produto.getIdProduto());
         System.out.println(produto.getIdProduto());
@@ -96,9 +103,8 @@ public class Pedido
         return valorPedido;
     }
 
+
+
     //tem de vir da API toda vez que um pedido novo é feito
-    public int getIdPedido()
-    {
-        return idPedido;
-    }
+
 }
