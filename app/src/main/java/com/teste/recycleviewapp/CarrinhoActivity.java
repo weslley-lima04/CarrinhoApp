@@ -21,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.teste.recycleviewapp.Database.PedidoHelper;
 import com.teste.recycleviewapp.api.Api;
 import com.teste.recycleviewapp.api.PerformNetworkRequest;
+import com.teste.recycleviewapp.api.RequestHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,6 +71,7 @@ public class CarrinhoActivity extends AppCompatActivity
                overridePendingTransition(0, 0);
                startActivity(getIntent());
                overridePendingTransition(0, 0);
+
             }
         });
 

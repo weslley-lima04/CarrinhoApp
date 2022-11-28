@@ -12,4 +12,7 @@ public class Api
 
     public static final String URL_CADASTRA_ITENS = ROOT_URL + "cadastraItens";
 
+
+    public static final String URL_LAST_IDPEDIDO = "http://192.168.1.14/CantinaApi/CantinaAPI/includes/getPedidoID.php";
+
 }

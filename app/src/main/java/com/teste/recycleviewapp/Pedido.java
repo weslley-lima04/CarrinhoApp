@@ -3,6 +3,7 @@ package com.teste.recycleviewapp;
 
 import com.teste.recycleviewapp.api.Api;
 import com.teste.recycleviewapp.api.PerformNetworkRequest;
+import com.teste.recycleviewapp.api.RequestHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
