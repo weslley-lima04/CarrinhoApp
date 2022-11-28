@@ -20,53 +20,54 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class getData extends Thread
 {
+
+    String id;
     String data = "";
     StringBuilder sb = new StringBuilder();
-    ArrayList<String> resp = new ArrayList<>();
+   // ArrayList<String> resp = new ArrayList<>();
 
 
     @Override
     public void run()
     {
 
-        try
-        {
+        try {
             //mudar url
-            URL url = new URL("http://192.168.1.14/CantinaApi/CantinaAPI/includes/getPedidoID.php");
+            URL url = new URL("http://192.168.56.1/CantinaApi/CantinaAPI/includes/getPedidoID.php");
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
             //propriedades da conexão
-            httpURLConnection.setReadTimeout(15000);
-            httpURLConnection.setConnectTimeout(15000);
+           // httpURLConnection.setReadTimeout(15000);
+            //httpURLConnection.setConnectTimeout(15000);
             httpURLConnection.setRequestMethod("POST");
             httpURLConnection.setDoInput(true);
             httpURLConnection.setDoOutput(true);
 
             int responseCode = httpURLConnection.getResponseCode();
-            if (responseCode == HttpsURLConnection.HTTP_OK)
-            {
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
                 String response;
                 response = bufferedReader.readLine();
 
                 //em vez de while, use if
-                if (response != null)
-                {
+                if (response != null) {
                     sb.append(response);
                 }
             }
             data = sb.toString();
 
-            if(!(data.isEmpty()))
+
+            if (!(data.isEmpty()))
             {
                 JSONObject jsonObject = new JSONObject(data);
                 JSONArray jsonArray = jsonObject.getJSONArray("LastID");
-                for (int i = 0; i < jsonArray.length(); i++)
-                {
+                for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject ids = jsonArray.getJSONObject(i);
-                    String id = ids.getString("IDPedido");
-                   // System.out.println("SEU ID É " + id);
-                    resp.add(id);
+                    id = ids.getString("IDPedido");
+                    new Pedido().setIdPedido(Integer.parseInt(id));
+                    System.out.println("SAINDO DA GET DATA");
+                    System.out.println("SEU ID É " + id);
+                    //resp.add(id);
                 }
             }
 
@@ -78,8 +79,6 @@ public class getData extends Thread
         }
 
     }
-
-
 
 
 }

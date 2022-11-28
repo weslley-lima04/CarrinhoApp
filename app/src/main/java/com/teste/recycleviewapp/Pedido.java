@@ -17,7 +17,7 @@ import java.util.TimeZone;
 public class Pedido
 {
 
-    private int idPedido;
+    static int idPedido;
     private int idClientePedido = new Cliente().getIdCliente();
     private String DataPedido;
     private double valorPedido;
@@ -104,7 +104,15 @@ public class Pedido
         return valorPedido;
     }
 
+    public void setIdPedido(int idPedido)
+    {
+        Pedido.idPedido = idPedido;
+    }
 
+    public int getIdPedido()
+    {
+        return idPedido;
+    }
 
     //tem de vir da API toda vez que um pedido novo é feito
 

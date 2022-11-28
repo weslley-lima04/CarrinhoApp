@@ -35,7 +35,6 @@ import java.util.TimeZone;
 public class CarrinhoActivity extends AppCompatActivity
 {
 
-
     RecyclerView lista_teste;
     AdapterCarrinho adapterCarrinho;
     ArrayList<Produto> carrinho;
@@ -58,7 +57,7 @@ public class CarrinhoActivity extends AppCompatActivity
         btnEnviarPedido = findViewById(R.id.btnEviarPedido);
         totalPedido = findViewById(R.id.totalPedido);
 
-
+        new getData().start();
         limpar.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -71,6 +70,12 @@ public class CarrinhoActivity extends AppCompatActivity
                overridePendingTransition(0, 0);
                startActivity(getIntent());
                overridePendingTransition(0, 0);
+
+
+                System.out.println("SAINDO DO CARRINHO");
+
+
+                System.out.println("SEU ID DO PEDIDO É " + Pedido.idPedido );
 
             }
         });
