@@ -3,6 +3,8 @@ package com.teste.recycleviewapp;
 import android.app.ProgressDialog;
 import android.os.Handler;
 
+import com.teste.recycleviewapp.api.Api;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,12 +26,6 @@ public class getData extends Thread
     String id;
     String data = "";
     StringBuilder sb = new StringBuilder();
-    URL url;
-
-    public getData(URL request)
-    {
-        this.url = request;
-    }
 
 
     @Override
@@ -37,13 +33,12 @@ public class getData extends Thread
     {
 
         try {
-            //mudar url
-            url = new URL("http://192.168.56.1/CantinaApi/CantinaAPI/includes/getPedidoID.php");
+            URL url = new URL(Api.URL_LAST_IDPEDIDO);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
             //propriedades da conexão
-           // httpURLConnection.setReadTimeout(15000);
-            //httpURLConnection.setConnectTimeout(15000);
+            httpURLConnection.setReadTimeout(15000);
+            httpURLConnection.setConnectTimeout(15000);
             httpURLConnection.setRequestMethod("POST");
             httpURLConnection.setDoInput(true);
             httpURLConnection.setDoOutput(true);
@@ -70,9 +65,8 @@ public class getData extends Thread
                     JSONObject ids = jsonArray.getJSONObject(i);
                     id = ids.getString("IDPedido");
                     new Pedido().setIdPedido(Integer.parseInt(id));
-                    System.out.println("SAINDO DA GET DATA");
-                    System.out.println("SEU ID É " + id);
-
+                    //System.out.println("SAINDO DA GET DATA");
+                    //System.out.println("SEU ID É " + id);
                 }
             }
 

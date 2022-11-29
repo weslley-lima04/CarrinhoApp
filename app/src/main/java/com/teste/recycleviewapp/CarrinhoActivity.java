@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -71,11 +72,9 @@ public class CarrinhoActivity extends AppCompatActivity
                startActivity(getIntent());
                overridePendingTransition(0, 0);
 
-
-                System.out.println("SAINDO DO CARRINHO");
-
-
-                System.out.println("SEU ID DO PEDIDO É " + Pedido.idPedido );
+                //adicionar isso no realizar pedido
+                //System.out.println("SAINDO DO CARRINHO");
+                //System.out.println("SEU ID DO PEDIDO É " + Pedido.idPedido );
 
             }
         });
@@ -132,6 +131,9 @@ public class CarrinhoActivity extends AppCompatActivity
                     Snackbar snackbar = Snackbar.make(view, "Pedido realizado com sucesso!", Snackbar.LENGTH_LONG);
                     snackbar.setBackgroundTint(Color.rgb(20, 173, 0));
                     snackbar.show();
+
+                    Intent intent = new Intent(getApplicationContext(), PedidoRealizado.class);
+                    startActivity(intent);
                 }
                 else
                 {

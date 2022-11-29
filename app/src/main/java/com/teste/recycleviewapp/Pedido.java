@@ -32,7 +32,7 @@ public class Pedido
 
     public Pedido(int idPedido, int idCliente, String dataPedido, double valorPedido)
     {
-        this.idPedido = idPedido;
+        Pedido.idPedido = idPedido;
         this.idClientePedido = idCliente;
         this.DataPedido = dataPedido;
         this.valorPedido = valorPedido;
@@ -111,7 +111,7 @@ public class Pedido
 
     public int getIdPedido()
     {
-        return idPedido;
+        return Pedido.idPedido;
     }
 
     //tem de vir da API toda vez que um pedido novo é feito
