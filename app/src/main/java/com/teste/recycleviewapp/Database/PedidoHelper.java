@@ -5,7 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
+import android.view.View;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 public class PedidoHelper extends SQLiteOpenHelper
 {
@@ -43,24 +47,62 @@ public class PedidoHelper extends SQLiteOpenHelper
     //criando novos métodos de input e leitura
     public String inputPedido(String id, String titulo, String preco, String qtd)
     {
+
+
       SQLiteDatabase db = this.getWritableDatabase();
-      ContentValues values = new ContentValues();
-      values.put(PedidoTabela.EntradaPedido.COLUMN_ID, id);
-      values.put(PedidoTabela.EntradaPedido.COLUMN_NAME, titulo);
-      values.put(PedidoTabela.EntradaPedido.COLUMN_QUANTITY, qtd);
-      values.put(PedidoTabela.EntradaPedido.COLUMN_PRICE, preco);
-      float insert = db.insert(PedidoTabela.EntradaPedido.TABLE_NAME, null, values);
-      if(insert==-1)
+      float insert = 0;
+      if (checaCarrinho(id))
       {
-          return "Falha ao adicionar ao carrinho.";
-
+          atualizaQtd(id, qtd, db);
+          atualizaPreco(id, preco, db);
+          return "Quantidade atualizada!";
       }
-     else
+      else
       {
-          return "Adicionado ao carrinho!";
+          ContentValues values = new ContentValues();
+          values.put(PedidoTabela.EntradaPedido.COLUMN_ID, id);
+          values.put(PedidoTabela.EntradaPedido.COLUMN_NAME, titulo);
+          values.put(PedidoTabela.EntradaPedido.COLUMN_QUANTITY, qtd);
+          values.put(PedidoTabela.EntradaPedido.COLUMN_PRICE, preco);
+          insert = db.insert(PedidoTabela.EntradaPedido.TABLE_NAME, null, values);
       }
+        if(insert==-1)
+        {
+            return "Falha ao adicionar ao carrinho.";
 
+        }
+        else
+        {
+            return "Adicionado ao carrinho!";
+        }
     }
+
+    //função auxiliar para o input
+    public boolean checaCarrinho(String id)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "SELECT * FROM " + PedidoTabela.EntradaPedido.TABLE_NAME + " WHERE " + PedidoTabela.EntradaPedido.COLUMN_ID + " = " + id;
+        Cursor cursor = db.rawQuery(sql, null);
+        return cursor.getCount() > 0;
+    }
+
+    public void atualizaQtd(String id, String qtd, SQLiteDatabase db)
+    {
+        String sql = "UPDATE " + PedidoTabela.EntradaPedido.TABLE_NAME +
+                " SET " + PedidoTabela.EntradaPedido.COLUMN_QUANTITY + " = "
+                + PedidoTabela.EntradaPedido.COLUMN_QUANTITY +
+                " + " + qtd +  " where " + PedidoTabela.EntradaPedido.COLUMN_ID + " = " + id;
+        db.execSQL(sql);
+    }
+    public void atualizaPreco(String id, String preco, SQLiteDatabase db)
+    {
+        String sql = "UPDATE " + PedidoTabela.EntradaPedido.TABLE_NAME +
+                " SET " + PedidoTabela.EntradaPedido.COLUMN_PRICE + " = " +
+                PedidoTabela.EntradaPedido.COLUMN_QUANTITY + "*" + preco +
+                " where " + PedidoTabela.EntradaPedido.COLUMN_ID + " = " + id;
+        db.execSQL(sql);
+    }
+
 
     public Cursor getPedido()
     {
@@ -83,9 +125,16 @@ public class PedidoHelper extends SQLiteOpenHelper
         {
             Toast.makeText(context, "Não foi possível limpar seu carrinho.", Toast.LENGTH_SHORT).show();
         }
-
-
     }
 
+    public void removerItem(String id, View view)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "DELETE FROM " + PedidoTabela.EntradaPedido.TABLE_NAME + " WHERE " + PedidoTabela.EntradaPedido.COLUMN_ID + " = " + id;
+        db.execSQL(sql);
+        Snackbar snackbar = Snackbar.make(view, "Item removido!", Snackbar.LENGTH_LONG);
+        snackbar.setBackgroundTint(Color.rgb(255, 174, 1));
+        snackbar.show();
+    }
 
 }
