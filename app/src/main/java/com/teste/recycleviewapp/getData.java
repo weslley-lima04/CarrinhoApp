@@ -24,7 +24,12 @@ public class getData extends Thread
     String id;
     String data = "";
     StringBuilder sb = new StringBuilder();
-   // ArrayList<String> resp = new ArrayList<>();
+    URL url;
+
+    public getData(URL request)
+    {
+        this.url = request;
+    }
 
 
     @Override
@@ -33,7 +38,7 @@ public class getData extends Thread
 
         try {
             //mudar url
-            URL url = new URL("http://192.168.56.1/CantinaApi/CantinaAPI/includes/getPedidoID.php");
+            url = new URL("http://192.168.56.1/CantinaApi/CantinaAPI/includes/getPedidoID.php");
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
             //propriedades da conexão
@@ -67,7 +72,7 @@ public class getData extends Thread
                     new Pedido().setIdPedido(Integer.parseInt(id));
                     System.out.println("SAINDO DA GET DATA");
                     System.out.println("SEU ID É " + id);
-                    //resp.add(id);
+
                 }
             }
 
