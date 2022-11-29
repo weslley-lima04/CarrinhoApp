@@ -56,7 +56,7 @@ public class AdapterCarrinho extends RecyclerView.Adapter<AdapterCarrinho.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder
     {
         TextView mnomeProduto, mdescProduto, mprecoProduto, mqtdProduto, midProduto;
-        ImageView mImageProduto;
+        ImageView mImageProduto, mdeleteProduto;
 
         public ViewHolder(@NonNull View itemView)
         {
@@ -67,6 +67,16 @@ public class AdapterCarrinho extends RecyclerView.Adapter<AdapterCarrinho.ViewHo
             mprecoProduto = itemView.findViewById(R.id.precoProduto);
             mqtdProduto = itemView.findViewById(R.id.qtdProduto);
             mImageProduto = itemView.findViewById(R.id.imgProduto);
+            mdeleteProduto = itemView.findViewById(R.id.delete_item);
+
+            mdeleteProduto.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    new PedidoHelper(context.getApplicationContext()).removerItem(midProduto.getText().toString(), view);
+                }
+            });
         }
     }
 }
