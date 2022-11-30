@@ -1,37 +1,30 @@
 package com.teste.recycleviewapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
+
 import android.database.Cursor;
 import android.graphics.Color;
-import android.os.AsyncTask;
+
 import android.os.Bundle;
-import android.util.Log;
+
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.teste.recycleviewapp.Database.PedidoHelper;
-import com.teste.recycleviewapp.api.Api;
-import com.teste.recycleviewapp.api.PerformNetworkRequest;
-import com.teste.recycleviewapp.api.RequestHandler;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.TimeZone;
 
 public class CarrinhoActivity extends AppCompatActivity
 {
@@ -58,7 +51,6 @@ public class CarrinhoActivity extends AppCompatActivity
         btnEnviarPedido = findViewById(R.id.btnEviarPedido);
         totalPedido = findViewById(R.id.totalPedido);
 
-        new getData().start();
         limpar.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -67,15 +59,8 @@ public class CarrinhoActivity extends AppCompatActivity
                new PedidoHelper(CarrinhoActivity.this).limparCarrinho(CarrinhoActivity.this);
 
                //limpando a tela
-               finish();
-               overridePendingTransition(0, 0);
-               startActivity(getIntent());
-               overridePendingTransition(0, 0);
 
-                //adicionar isso no realizar pedido
-                //System.out.println("SAINDO DO CARRINHO");
-                //System.out.println("SEU ID DO PEDIDO É " + Pedido.idPedido );
-
+                refresh();
             }
         });
 
@@ -179,6 +164,89 @@ public class CarrinhoActivity extends AppCompatActivity
     {
         super.onBackPressed();
     }
+    
+        //atualiza a tela
+    private void refresh()
+    {
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
+    }
+    
+       //adaptador interno
+    private class AdapterCarrinho extends RecyclerView.Adapter<AdapterCarrinho.ViewHolder>
+    {
+
+        private ArrayList<Produto> carrinho;
+        private Context context;
+
+        // public AdapterCarrinho(){}
+
+        public AdapterCarrinho(Context context, ArrayList<Produto> carrinho)
+        {
+            this.carrinho = carrinho;
+            this.context = context;
+        }
+
+        @NonNull
+        @Override
+        public AdapterCarrinho.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+        {
+            View view;
+            LayoutInflater inflater = LayoutInflater.from(context);
+            view = inflater.inflate(R.layout.modelo_produtos, parent, false);
+            return new AdapterCarrinho.ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position)
+        {
+            holder.midProduto.setText(carrinho.get(position).getIdProduto());
+            holder.mnomeProduto.setText(carrinho.get(position).getNomeProduto());
+            holder.mdescProduto.setText(carrinho.get(position).getDescProduto());
+            holder.mprecoProduto.setText(carrinho.get(position).getPrecoProduto());
+            holder.mqtdProduto.setText(carrinho.get(position).getQtdeProduto());
+            holder.mImageProduto.setImageResource(carrinho.get(position).getImgProduto());
+        }
+
+        @Override
+        public int getItemCount()
+        {
+            return carrinho.size();
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder
+        {
+            TextView mnomeProduto, mdescProduto, mprecoProduto, mqtdProduto, midProduto;
+            ImageView mImageProduto, mdeleteProduto;
+
+            public ViewHolder(@NonNull View itemView)
+            {
+                super(itemView);
+                midProduto = itemView.findViewById(R.id.IDproduto_cart);
+                mnomeProduto = itemView.findViewById(R.id.nomeProduto);
+                mdescProduto = itemView.findViewById(R.id.descProduto);
+                mprecoProduto = itemView.findViewById(R.id.precoProduto);
+                mqtdProduto = itemView.findViewById(R.id.qtdProduto);
+                mImageProduto = itemView.findViewById(R.id.imgProduto);
+                mdeleteProduto = itemView.findViewById(R.id.delete_item);
+
+                mdeleteProduto.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        new PedidoHelper(context.getApplicationContext()).removerItem(midProduto.getText().toString());
+                        refresh();
+                        Toast.makeText(CarrinhoActivity.this, "Item removido!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }
+    }
+
+
 
 
 }
