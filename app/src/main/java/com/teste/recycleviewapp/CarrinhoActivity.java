@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 
@@ -51,6 +52,7 @@ public class CarrinhoActivity extends AppCompatActivity
         btnEnviarPedido = findViewById(R.id.btnEviarPedido);
         totalPedido = findViewById(R.id.totalPedido);
 
+        new getData().start();
         limpar.setOnClickListener(new View.OnClickListener()
         {
             @Override
